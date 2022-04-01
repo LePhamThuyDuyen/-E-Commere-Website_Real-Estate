@@ -1,0 +1,248 @@
+﻿@*@model KhoaLuanTotNghiep_CustomerSite.ViewModel.searchModel*@
+@model IList<ShareModel.RealEstateModel>
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/project.css" />
+}
+
+@{ ViewData["Title"] = "Home Page"; }
+
+<div class="container-fluid" style="padding: 0; margin: 0">
+    <div class="col height d-flex justify-content-center" id="main">
+
+        <div id="carouselExampleIndicators" class="carousel slide d-flex justify-content-center" data-ride="carousel" style="height: 100%; width: 100%">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="https://res.cloudinary.com/dusq8k6rj/image/upload/v1633872012/leduyen/w7jqt1cs9b7vi8jjhwo0.jpg" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="https://res.cloudinary.com/dusq8k6rj/image/upload/v1633871979/leduyen/gmhzoxx5cnxtxbtcikz1.jpg" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="https://res.cloudinary.com/dusq8k6rj/image/upload/v1633788906/leduyen/wrzqdzhqldo084zkqvbr.jpg" alt="Third slide">
+                </div>
+            </div>
+
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <div id="frm-main">
+            <div class="col height d-flex justify-content-center align-items-center" style="width: 100%; height: 100%">
+                <div class="search">
+                    <form asp-controller="Search" asp-action="SearchRealEstate" method="get" class="aa-review-form">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <input class="form-control" type="search" name="query" value="" placeholder="Nhập thông tin..." aria-label="Search" data-val="true" data-val-length="Vượt quá 500 ký tự." data-val-length-max="500" data-val-required="Tiêu đề không được trống." id="query" maxlength="100">
+                                <span class="text-danger field-validation-valid" data-valmsg-for="query" data-valmsg-replace="true"></span>
+                            </div>
+                            <input class="btn btn-danger input-search" type="submit" style="text-align: center" value="Tìm">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="title-RealEstate">
+        <h2>Bất động sản dành cho bạn</h2>
+    </div>
+    <div class="card-deck">
+        <div class="card" style="width: 0; height: 0; border: none">
+            <img class="card-img-top" src="~/images/main.jpg" style="width: 0; height: 0">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card-deck" id="card-RealEstate">
+                @for (int i = 0; i < Model.Count(); i += 3)
+                {
+                    <div class="row" style=" margin-top:30px; width:100%">
+                        @{
+                            int j = 0;
+                            for (; j <= 2 && i + j < Model.Count(); j++)
+                            {
+                                <div class="col-md-4" id="row-item" style="height:450px">
+                                    <a class="card" style="height:100%" asp-action="Details" asp-controller="RealEstate" asp-route-id="@Model[i+j].RealEstateID">
+                                        <div style="height:30%">
+                                            <img class="card-img-top" style="height:100%" src="@Model[i+j].Image" alt="Card image cap">
+                                        </div>
+
+                                        <div class="card-body" style="height:60%">
+                                            <p style="display: -webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden; " class="card-title">
+                                            <p class="card-title">
+                                                @(Model[i + j].Title.Length > 70 ? Model[i + j].Title.Substring(0, 70) + "..." : Model[i + j].Title)
+                                            </p>
+                                            <p class="card-text">Gía: @Model[i + j].Price VND
+                                            <p class="card-text">Diện Tích: @Model[i + j].Acgreage m2</p>
+                                            <p class="card-text">Vị Trí: @Model[i + j].Location</p>
+                                        </div>
+
+                                        <div class="card-footer" style="height:10%">
+                                            <small class="text-muted">@Model[i + j].CreateTime</small>
+                                        </div>
+                                    </a>
+
+                                </div>
+                            }
+                        }
+                    </div>
+                    <br />
+                }
+            </div>
+        </div>
+        <div class="post-sidebar large-4 col">
+            <div id="secondary" class="widget-area " role="complementary">
+                <aside id="woocommerce_product_categories-3" class="widget woocommerce widget_product_categories">
+                    <div id="divPostNews" style="width:300px;border: 1px  #999">
+                        <div class="rowHeader  elevation-2 ">
+                            <div class="title-info">
+                                <h4 style="color: white; text-align:center">Tất cả danh mục</h4>
+                            </div>
+                            <ul class="product-categories">
+                                @*<br />
+                                            <li class="cat-item " style="  list-style-type: none;margin-left:20px"><a href="https://localhost:44360/RealEstate/categoryNh%C3%A0%20%C4%90%E1%BA%A5t%20B%C3%A1n">Nhà Đất Bán</a></li>
+                                            <hr />
+                                            <li class="cat-item " style="  list-style-type: none;margin-left:20px"><a href="https://localhost:44360/RealEstate/categoryNh%C3%A0%20Cho%20Thu%C3%AA">Nhà Cho thuê</a></li>
+                                            <hr />
+                                            <li class="cat-
+                                                 <li class="nav-item">
+                                        @await Component.InvokeAsync("CategoryMenu")
+                                    </li>item " style="  list-style-type: none;margin-left:20px"><a href="https://localhost:44360/RealEstate/categoryD%E1%BB%B1%20%C3%81n">Dự án</a></li>
+                                            <hr />*@
+
+                                @await Component.InvokeAsync("Dropdown")
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+                <br /><br />
+                <aside id="woocommerce_products-2" class="widget woocommerce widget_products">
+                    <div id="divPostNews" style="width:300px;border: 1px  #999">
+                        <div class="rowHeader  elevation-2 ">
+                            <div class="title-info">
+                                <h4 style="color: white; text-align:center">Danh mục nổi bật</h4>
+                            </div>
+                            <br />
+                            <ul class="product_list_widget">
+                                <li style="  list-style-type: none">
+
+                                    <a href="/">
+                                        <img width="100" height="100" src="https://res.cloudinary.com/dusq8k6rj/image/upload/v1639595527/Source/nha3_xsoqqj_w0kenv.jpg">
+                                        <span style="display: -webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden">Biệt thự view biển đẹp</span>
+                                    </a>
+
+
+                                    <span class="lien-he-price"></span>
+                                </li>
+                                <hr />
+                                <li style="  list-style-type: none">
+
+                                    <a href="/">
+                                        <img width="100" height="100" src="https://res.cloudinary.com/dusq8k6rj/image/upload/v1639595526/Source/vensong_tuenwb.jpg">
+                                        <p style="display: -webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden; ">Biệt thự An Viên Nha Trang</p>
+                                    </a>
+
+
+                                    <span class="lien-he-price"></span>
+                                </li>
+                                <hr />
+                                <li style="  list-style-type: none">
+
+                                    <a href="/">
+                                        <img width="100" height="100" src="https://res.cloudinary.com/dusq8k6rj/image/upload/v1639595525/Source/du-an-baria-residence-vung-tau-800x447_ktmk08.jpg">
+                                        <p style="display: -webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden; ">Biệt thự Hoa Thiên - Phan Thiết</p>
+                                    </a>
+
+
+                                    <span class="lien-he-price"></span>
+                                </li>
+                                <hr />
+                                <li style="  list-style-type: none">
+
+                                    <a href="/">
+                                        <img width="100" height="100" src="https://res.cloudinary.com/dusq8k6rj/image/upload/v1639595525/Source/bds_kae2hh.jpg">
+                                        <p style="display: -webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden; ">Biệt thự Cô Liên - Đà Lạt</p>
+                                    </a>
+
+
+                                    <span class="lien-he-price"></span>
+                                </li>
+                                <hr />
+                                <li style="list-style-type: none">
+
+                                    <a href="/">
+                                        <img width="100" height="100" src="https://res.cloudinary.com/dusq8k6rj/image/upload/v1638014252/Source/ggkd8n9oeqpncrusnnbe.jpg">
+                                        <p style="display: -webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden; ">Biệt thự Thành Thành - Đà Nẵng</p>
+                                    </a>
+
+
+                                    <span class="lien-he-price"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript">
+                function openSuccessModal(strMessage) {
+                    var myDiv = document.getElementById("MyModalSuccessAlertBody");
+                    myDiv.innerHTML = strMessage;
+                    $('#myModalSuccess').modal('show');
+                }
+                $(document).ready(function () {
+                    var msg = "@TempData["SuccessMessage"]";
+                    if (msg)
+                        openSuccessModal(msg);
+                });
+    </script>
+    <script>
+        $("#btnNext").click(function () {
+            $.ajax({
+                url: 'RealEstate/Next',
+                data: { RealEstateId: cureentid },
+                success: function (response) {
+                    $("body").html(response);
+                }
+            });
+        });
+
+
+        $("#btnPrevious").click(function () {
+            $.ajax({
+                url: 'Category/Previous',
+                data: { personId: cureentid },
+                success: function (response) {
+                    $("body").html(response);
+                }
+            });
+        });
+    </script>
+    <script>
+        $(window).unload(function () {
+            localStorage.clear();
+        });
+    </script>
+}
+
+

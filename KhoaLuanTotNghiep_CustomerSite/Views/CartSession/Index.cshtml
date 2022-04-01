@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Cart Page";
+}
+
+@model IList<ShareModel.CardSessionModel>
+@{ decimal sumPrice = 0;}
+<div class="divider" style="text-align: center;"><span></span><span class="title-products" style="font-size:32px;color:crimson">Tin lưu trữ</span><span></span></div>
+
+<div>
+    <div class="container-fluid" style="margin-top:20px; margin-bottom:20px;">
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-bordered table-responsive table-hover">
+                <tr>
+                    <th>Hình ảnh </th>
+                    <th>Tên loại </th>
+                    <th>Tên sản phẩm</th>
+                    <th>Vị trí</th>
+                    <th>Gía</th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><img src="@item.Image" alt="cartItemImage" style="width:150px" /></td>
+                        <td style="width:200px">@item.CategoryName</td>
+                        <td style="width:900px">@item.Title</td>
+                        <td style="width:150px">@item.Location</td>
+                        <td style="width:100px">@string.Concat(string.Format("{0:#,##0}", item.Price), " vnđ")  </td>
+                        <td style="width:100px">
+                            <div class="row" style="float:right;margin-right:5px">
+                                <button type="button" onclick=" location.href = '@Url.Action("Delete", "CartSession", new { id = item.RealEstateID })';" class="btn btn-outline-danger btn-lg">Xóa</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+        @if (Model.Count() == 0)
+        {
+            <h3 style="text-align: center"> Không có tin được luu!</h3>
+        }
+    </div>
+    }
+</div>
+
+
